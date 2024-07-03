@@ -1,0 +1,54 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+.MuiOutlinedInput-adornedEnd {
+  padding-right: 0px !important;
+}
+/* .MuiAvatar-colorDefault {
+  color: none !important;
+  border-color: #4b4b4b !important;
+  background-color: #4b4b4b !important;
+} */
+/* .MuiIconButton-root {
+  padding-right: 0px !important;
+} */
+.MuiOutlinedInput-adornedStart {
+  padding-left: 0px !important;
+}
+.MuiIconButton-root,
+.MuiAvatar-colorDefault {
+  color: #4b4b4b !important;
+}
+.MuiSvgIcon-root {
+  width: 1rem;
+  height: 1rem;
+}
+.MuiTypography-body1 {
+  font-size: 0.9rem;
+  color: #000;
+}
+.makeStyles-submit-7 {
+  margin-top: 5px !important;
+}
+.MuiButton-root {
+  padding: 15px 16px !important;
+}
+.css-nxo287-MuiInputBase-input-MuiOutlinedInput-input,
+.css-154xyx0-MuiInputBase-root-MuiOutlinedInput-root {
+  background-color: #fff !important;
+  border-radius: 0px !important;
+  padding-right: 1px !important;
+}
+header {
+  background-color: #fff !important;
+}

@@ -1,0 +1,26 @@
+.MobileMenuContainer {
+  display: flex;
+}
+
+.Menu {
+  width: 0;
+  transition: width 0.3s ease;
+  overflow: hidden;
+}
+
+.MenuOpen {
+  width: 240px; /* Adjust this value as per your design */
+}
+
+.MenuItems {
+  position: absolute;
+}
+
+.MainContent {
+  flex: 1;
+  transition: margin-left 0.3s ease;
+}
+
+.MenuOpen ~ .MainContent {
+  margin-left: 240px; /* Adjust this value to match the menu width */
+}
