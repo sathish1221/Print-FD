@@ -1,40 +1,38 @@
 import axios from "axios";
-import { useNavigate } from 'react-router-dom';
+import Swal from "sweetalert2";
 
-const Axios = axios.create({
-    baseURL: `http://192.168.1.226:8000/api/`, 
-    
-    // baseURL: `http://127.0.0.1:8000/api/`,
-
+const axiosInstance = axios.create({
+  baseURL: "http://192.168.1.226:8000/api/", // Update with your API base URL
+// baseURL: "https://kitecareer.com/watsmyapi/api/",
+headers: {
+  'Content-Type': 'application/json',
+},
 });
 
-Axios.interceptors.request.use(
-    (config) => {
-        const token = localStorage.getItem('token');
-        if (token) {
-            config.headers.Authorization = `Bearer ${token}`;
-        }
-        return config;
-    },
-    (error) => {
-        return Promise.reject(error);
+axiosInstance.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
     }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
 );
 
-Axios.interceptors.response.use(
-    (response) => {
-        return response;
-    },
-    (error) => {
-        if (error.response && error.response.status === 401) {
-            // Clear token from local storage
-            localStorage.removeItem('token');
-            // Redirect to login page
-            const navigate = useNavigate(); 
-            navigate('/login');
-        }
-        return Promise.reject(error);
+axiosInstance.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    const { response } = error;
+    if (response.status === 401) {
+      Swal.fire("Error", "Session expired. Please log in again.", "error");
     }
+    return Promise.reject(error);
+  }
 );
 
-export default Axios;
+export default axiosInstance;

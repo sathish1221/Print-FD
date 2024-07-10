@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import {
   Table,
@@ -26,7 +27,9 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import Axios from "../Axios";
 import Swal from "sweetalert2";
 import PropTypes from "prop-types";
+import Logo from '../assets/logo1.png'
 import { makeStyles } from "@material-ui/core/styles";
+import Pagination from '@material-ui/lab/Pagination';
 
 const useStyles = makeStyles({
   tableContainer: {
@@ -37,15 +40,24 @@ const useStyles = makeStyles({
   tableHeader: {
     backgroundColor: "#014550",
     color: "#fff",
+    textAlign:'center'
+  },
+  tableHeader1: {
+    fontWeight:600,
+    textAlign:'center'
   },
   tableRow: {
     backgroundColor: "#f5f5f5",
+    
   },
   tableCell: {
     backgroundColor: "rgba(255, 255, 255, 0.8)",
   },
   tableBorder: {
     borderColor: "#000",
+  },
+  tabledata:{
+textAlign:'center'
   },
   editButton: {
     color: "white",
@@ -66,7 +78,7 @@ const useStyles = makeStyles({
   },
   addButton: {
     marginBottom: 10,
-    backgroundColor: "#014550",
+    backgroundColor: "green",
     color: "#fff",
     '&:hover': {
       backgroundColor: "#013440",
@@ -81,41 +93,42 @@ function Row(props) {
   return (
     <React.Fragment>
       <TableRow>
-        <TableCell>
+        <TableCell className={classes.tabledata}>
           <IconButton
             aria-label="expand row"
             size="small"
             onClick={() => setOpen(!open)}
           >
-            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+            {open ? <KeyboardArrowUpIcon  /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell>{row.title}</TableCell>
-        <TableCell>{row.description}</TableCell>
-        <TableCell>
+        <TableCell className={classes.tabledata}>{row.title}</TableCell>
+        <TableCell className={classes.tabledata}>{row.description}</TableCell>
+        <TableCell className={classes.tabledata}>
           <Button className={classes.editButton} onClick={() => handleEdit(row)}>Edit</Button>
           <Button className={classes.deleteButton} onClick={() => handleDelete(row.design_id)}>Delete</Button>
         </TableCell>
       </TableRow>
       <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 ,background:'#e9e9e9'}} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box sx={{ margin: 1, }}>
+            <Box sx={{ margin: 1 }}>
               <Typography variant="h6" gutterBottom component="div">
                 Details
               </Typography>
               <Table size="small" aria-label="details">
                 <TableBody>
                   <TableRow>
-                    <TableCell>Title</TableCell>
+                    
+                    <TableCell className={classes.tableHeader1} >Title</TableCell>
                     <TableCell>{row.title}</TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell>Description</TableCell>
+                    <TableCell className={classes.tableHeader1}>Description</TableCell>
                     <TableCell>{row.description}</TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell>Images</TableCell>
+                    <TableCell className={classes.tableHeader1}>Images</TableCell>
                     <TableCell>
                       {row.images.map((image, index) => (
                         <img key={index} src={`data:image/jpeg;base64,${image}`} alt="Event Design" style={{ width: '100px', margin: '5px' }} />
@@ -152,20 +165,32 @@ const AllEventDesigns = () => {
   const [selectedEventDesign, setSelectedEventDesign] = useState(null);
   const [isAddMode, setIsAddMode] = useState(false);
   const [events, setEvents] = useState([]);
+  const [pagination, setPagination] = useState({});
+  const [page, setPage] = useState(1);
 
-  const getEventDesignList = async () => {
+  const getEventDesignList = async (page = 1) => {
     try {
-      const response = await Axios.get("/event-designs", {
+      const response = await Axios.get(`/event-designs?page=${page}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
           "Content-Type": "application/json",
         },
       });
       setEventDesignList(response.data.Design);
+      setPagination(response.data.pagination); // Assuming you have a state for pagination data
     } catch (error) {
       console.warn("Error in getting event design list", error);
     }
   };
+
+  const handlePageChange = (event, value) => {
+    setPage(value);
+    getEventDesignList(value);
+  };
+
+  useEffect(() => {
+    getEventDesignList(page);
+  }, [page]);
 
   const getEvents = async () => {
     try {
@@ -188,7 +213,7 @@ const AllEventDesigns = () => {
   };
 
   const handleAdd = () => {
-    setSelectedEventDesign({ event_id: "", title: "", description: "", images: [] });
+    setSelectedEventDesign({ event_id: "", title: "", description: "" });
     setIsAddMode(true);
     setOpen(true);
   };
@@ -202,7 +227,7 @@ const AllEventDesigns = () => {
         },
       });
       setEventDesignList(eventDesignList.filter((eventDesign) => eventDesign.design_id !== id));
-      Swal.fire("Success", "Event design and associated images deleted successfully", "success");
+      Swal.fire("Success", "Event design deleted successfully", "success");
     } catch (error) {
       console.warn("Error in deleting event design", error);
       Swal.fire("Error", "Failed to delete event design", "error");
@@ -263,14 +288,14 @@ const AllEventDesigns = () => {
         <Table stickyHeader className={classes.tableBorder}>
           <TableHead>
             <TableRow>
-              <TableCell />
+              <TableCell className={classes.tableHeader}><img src={Logo} alt="Logo" style={{ width: '50px', height: '40px' }} /></TableCell>
               <TableCell className={classes.tableHeader}>TITLE</TableCell>
               <TableCell className={classes.tableHeader}>DESCRIPTION</TableCell>
               <TableCell className={classes.tableHeader}>ACTION</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-          {eventDesignList.map((row, index) => (
+            {eventDesignList.map((row, index) => (
               <Row
                 key={index}
                 row={row}
@@ -282,7 +307,12 @@ const AllEventDesigns = () => {
           </TableBody>
         </Table>
       </TableContainer>
-
+      <Pagination
+        count={pagination.last_page}
+        page={page}
+        onChange={handlePageChange}
+        color="primary"
+      />
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>{isAddMode ? "Add Event Design" : "Edit Event Design"}</DialogTitle>
         <DialogContent>

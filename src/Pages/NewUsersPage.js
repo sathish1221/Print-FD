@@ -3,7 +3,6 @@ import { AppBar, Toolbar, Button, CssBaseline, Box } from "@mui/material";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Images3 from "../assets/img3.png";
 import bg from "../assets/bg.png";
-import ImageUpload from "../component/ImageUpload";
 import MobileDrawer from "../component/MobileDrawer";
 import { makeStyles } from "@material-ui/core/styles";
 import "../index.css";

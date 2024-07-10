@@ -70,13 +70,7 @@ const AllUsersPage = () => {
             alt="Logo"
             style={{ height: 45, marginRight: "auto" }}
           />
-          <Button
-            color="inherit"
-            endIcon={<LogoutIcon />}
-            sx={{ marginLeft: "auto" }}
-          >
-            Logout
-          </Button>
+         
         </Toolbar>
       </AppBar>
       <MobileDrawer />

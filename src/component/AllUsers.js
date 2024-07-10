@@ -24,18 +24,25 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import Axios from "../Axios";
 import PropTypes from 'prop-types';
-import Swal from 'sweetalert2'; // Import SweetAlert2
-
+import Swal from 'sweetalert2';
+import Logo from '../assets/logo1.png';
+import '../css/style.css';
 const useStyles = makeStyles({
   tableContainer: {
     maxHeight: 440,
     border: "1px solid #fff",
     borderRadius: "15px",
+    
   },
   tableHeader: {
     backgroundColor: "#014550",
     color: "#fff",
+    textAlign:'center'
   },
+  tableHeader1: {
+    fontWeight:600,
+     textAlign:'center'
+   },
   tableRow: {
     backgroundColor: "#f5f5f5",
   },
@@ -44,6 +51,26 @@ const useStyles = makeStyles({
   },
   tableBorder: {
     borderColor: "#000",
+  },
+  tabledata:{
+textAlign:'center'
+  },
+  editButton: {
+    color: "white",
+    backgroundColor: "green",
+    padding: "7px !important",
+    marginRight: "5px",
+    '&:hover': {
+      backgroundColor: "darkgreen",
+    },
+  },
+  deleteButton: {
+    color: "white",
+    backgroundColor: "red",
+    padding: "7px !important",
+    '&:hover': {
+      backgroundColor: "darkred",
+    },
   },
 });
 
@@ -71,7 +98,7 @@ function Row(props) {
   return (
     <React.Fragment>
       <TableRow>
-        <TableCell>
+        <TableCell className={classes.tabledata}>
           <IconButton
             aria-label="expand row"
             size="small"
@@ -80,18 +107,18 @@ function Row(props) {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell>{row.first_name} {row.last_name}</TableCell>
-        <TableCell>{row.company_name}</TableCell>
-        <TableCell>{row.email}</TableCell>
-        <TableCell>{row.phone}</TableCell>
-        <TableCell>{row.address1}</TableCell>
-        <TableCell>
-          <Button onClick={() => handleEdit(row)}>Edit</Button>
-          <Button onClick={() => handleDelete(row.id)}>Delete</Button>
+        <TableCell className={classes.tabledata}>{row.contact_name}</TableCell>
+        <TableCell className={classes.tabledata}>{row.company_name}</TableCell>
+        <TableCell className={classes.tabledata}>{row.email}</TableCell>
+        <TableCell className={classes.tabledata}>{row.phone}</TableCell>
+        <TableCell className={classes.tabledata}>{row.address1}</TableCell>
+        <TableCell className={classes.tabledata}>
+          <Button className={classes.editButton}  onClick={() => handleEdit(row)}>Edit</Button>
+          <Button className={classes.deleteButton}  onClick={() => handleDelete(row.id)}>Delete</Button>
         </TableCell>
       </TableRow>
       <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={8}>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 ,background:'#e9e9e9'}} colSpan={7}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <Typography variant="h6" gutterBottom component="div">
@@ -100,31 +127,65 @@ function Row(props) {
               <Table size="small" aria-label="details">
                 <TableHead>
                   <TableRow>
-                    <TableCell>Whatsapp</TableCell>
-                    <TableCell>GST</TableCell>
-                    <TableCell>City</TableCell>
-                    <TableCell>Pincode</TableCell>
-                    <TableCell>State</TableCell>
-                    <TableCell>Status</TableCell>
+                    <TableCell className={classes.tableHeader1}>Whatsapp</TableCell>
+                    <TableCell className={classes.tableHeader1}>GST</TableCell>
+                    <TableCell className={classes.tableHeader1}>City</TableCell>
+                    <TableCell className={classes.tableHeader1}>Pincode</TableCell>
+                    <TableCell className={classes.tableHeader1}>State</TableCell>
+                    <TableCell className={classes.tableHeader1}>Status</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   <TableRow>
-                    <TableCell>{row.whatsapp}</TableCell>
-                    <TableCell>{row.gst}</TableCell>
-                    <TableCell>{row.city}</TableCell>
-                    <TableCell>{row.pincode}</TableCell>
-                    <TableCell>{row.state}</TableCell>
-                    <TableCell>
-                      <Switch
-                        checked={status === 'active'}
-                        onChange={handleStatusChange}
-                        color="success"
-                      />
+                    <TableCell className={classes.tabledata}>{row.whatsapp}</TableCell>
+                    <TableCell className={classes.tabledata}>{row.gst}</TableCell>
+                    <TableCell className={classes.tabledata}>{row.city}</TableCell>
+                    <TableCell className={classes.tabledata}>{row.pincode}</TableCell>
+                    <TableCell className={classes.tabledata}>{row.state}</TableCell>
+                    <TableCell className={classes.tabledata}>
+                    <Switch
+                  checked={status === 'active'}
+                  onChange={handleStatusChange}
+                  
+                />
                     </TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
+              {/* <Table size="small" aria-label="details">
+                <TableBody>
+                  <TableRow>
+                  <TableCell>Whatsapp</TableCell>
+                  <TableCell>{row.whatsapp}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                  <TableCell>GST</TableCell>
+                    <TableCell>{row.gst}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>City</TableCell>
+                    <TableCell>{row.city}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>Pincode</TableCell>
+                    <TableCell>{row.Pincode}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>State</TableCell>
+                    <TableCell>{row.State}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>Status</TableCell>
+                    <TableCell>
+                    <Switch
+                  checked={status === 'active'}
+                  onChange={handleStatusChange}
+                  
+                />
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table> */}
             </Box>
           </Collapse>
         </TableCell>
@@ -235,9 +296,6 @@ const AllUsers = () => {
       if (newPassword && confirmPassword) {
         await handlePasswordChange();
       }
-      if(newPassword && confirmPassword) {
-        await handlePasswordChange();
-      }
       getUserList();
       handleClose();
       Swal.fire("Success", "User updated successfully", "success");
@@ -265,7 +323,7 @@ const AllUsers = () => {
         <Table stickyHeader className={classes.tableBorder}>
           <TableHead>
             <TableRow>
-              <TableCell />
+            <TableCell className={classes.tableHeader}><img src={Logo} alt="Logo" style={{ width: '50px', height: '40px' }} /></TableCell>
               <TableCell className={classes.tableHeader}>NAME</TableCell>
               <TableCell className={classes.tableHeader}>COMPANY NAME</TableCell>
               <TableCell className={classes.tableHeader}>EMAIL ID</TableCell>
@@ -290,22 +348,14 @@ const AllUsers = () => {
               <TextField
                 autoFocus
                 margin="dense"
-                name="first_name"
-                label="First Name"
+                name="contact_name"
+                label="Contact Name"
                 type="text"
                 fullWidth
-                value={selectedUser.first_name}
+                value={selectedUser.contact_name}
                 onChange={handleChange}
               />
-              <TextField
-                margin="dense"
-                name="last_name"
-                label="Last Name"
-                type="text"
-                fullWidth
-                value={selectedUser.last_name}
-                onChange={handleChange}
-              />
+              
               <TextField
                 margin="dense"
                 name="company_name"

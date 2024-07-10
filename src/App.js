@@ -2,18 +2,15 @@ import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./component/Login";
 import Status from "./profile/Status";
-import DashboardCopy from "./Pages/Dashboard copy";
 import Side from "./admin/Side";
-import Sidecopy from "./admin/Side copy";
 import AllUsersPage from "./Pages/AllUsersPage";
 import NewUsersPage from "./Pages/NewUsersPage";
-import ImageUploadPage from "./Pages/ImageUploadPage";
+import AddDesignPage from "./Pages/AddDesignPage";
 import AddEvents from './Pages/AddEventsPage';
 import ViewEvents from './Pages/ViewEventPages';
 import AdminLogin from "./component/AdminLogin";
-import WorldBicycleDay from "./Pages/WorldBicycleDay";
-import YogaDay from "./Pages/YogaDay";
-import Viewmore from './Pages/Viewmore';
+import EventsList from "./Pages/EventsList";
+// import Viewmore from './Pages/Viewmore';
 import Forgot from './component/Forgotpass';
 import VerifyOTP from './component/Verify-otp';
 import ViewDesignsPage from './Pages/ViewDesignsPage';
@@ -23,16 +20,12 @@ function App() {
    
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/world-bicycle-day" element={<WorldBicycleDay />} />
-        <Route path="/yoga-day" element={<YogaDay />} />
+        <Route path="/EventsList" element={<EventsList />} />
         <Route path="/adminsignin" element={<AdminLogin />} />
         <Route path="/status" element={<Status />} />
-        <Route path="/dashboard-copy" element={<DashboardCopy />} />
-        {/* <Route path="/dashboard" element={<Dashboard />} /> */}
         <Route path="/side" element={<Side />} />
-        <Route path="/image-upload" element={<ImageUploadPage />} />
-        <Route path="/viewmore" element={<Viewmore />} />
-        <Route path="/side-copy" element={<Sidecopy />} />
+        <Route path="/AddDesigns" element={<AddDesignPage />} />
+        {/* <Route path="/viewmore" element={<Viewmore />} /> */}
         <Route path="/all-users" element={<AllUsersPage />} />
         <Route path="/new-user" element={<NewUsersPage />} />
         <Route path="/events" element={<AddEvents />} /> 

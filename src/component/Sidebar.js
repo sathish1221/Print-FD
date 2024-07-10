@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation  } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { format } from "date-fns";
@@ -31,6 +31,7 @@ const Sidebar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [sidebarItems, setSidebarItems] = useState([]);
   const navigate = useNavigate();
+  const location = useLocation();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -41,10 +42,10 @@ const Sidebar = () => {
   const handleListItemClick = (index, path, id) => {
     setActiveItem(index); // Set activeItem based on the clicked index
     localStorage.setItem("activeMenuIndex", index); // Save the active item index to localStorage
-    path = "/yoga-day";
+    path = "/EventsList";
     console.log("Clicked index:", index);
     console.log("Clicked id:", id);
-    navigate(path, { state: { id: id } });
+    navigate(path, { state: { id: id, activeIndex: index } });
 
     if (isMobile) {
       setMobileOpen(false);
@@ -79,6 +80,13 @@ const Sidebar = () => {
     }
   }, []);
 
+
+  useEffect(() => {
+    if (location.state && location.state.activeIndex !== undefined) {
+      setActiveItem(location.state.activeIndex);
+    }
+  }, [location]);
+
   const handleLogout = () => {
     Swal.fire({
       title: 'Are you sure?',
@@ -91,22 +99,22 @@ const Sidebar = () => {
       cancelButtonText: 'No, stay'
     }).then(async (result) => {
       if (result.isConfirmed) {
-        try {
-          const token = localStorage.getItem("token");
-          if (!token) {
-            throw new Error("No token found");
-          }
+        // try {
+        //   const token = localStorage.getItem("token");
+        //   if (!token) {
+        //     throw new Error("No token found");
+        //   }
 
-          await Axios.post(
-            "auth/logout",
-            {},
-            {
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: "Bearer " + token,
-              },
-            }
-          );
+        //   await Axios.post(
+        //     "logout",
+        //     {},
+        //     {
+        //       headers: {
+        //         "Content-Type": "application/json",
+        //         Authorization: "Bearer " + token,
+        //       },
+        //     }
+        //   );
 
           localStorage.clear();
 
@@ -117,9 +125,9 @@ const Sidebar = () => {
           );
 
           navigate("/");
-        } catch (error) {
-          console.error("Error logging out:", error);
-        }
+        // } catch (error) {
+        //   console.error("Error logging out:", error);
+        // }
       }
     });
   };

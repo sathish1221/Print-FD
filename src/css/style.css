@@ -1,4 +1,13 @@
+.makeStyles-container-3 {
+    margin-top: 170px !important;
+}
+.MuiSwitch-colorSecondary.Mui-checked{
+    color: rgb(23, 141, 252) !important;
+}
+.MuiSwitch-colorSecondary.Mui-checked + .MuiSwitch-track {
+    background-color: rgb(23, 141, 252) !important;
+}
 
-    .makeStyles-container-3 {
-        margin-top: 170px !important;
-    }
+.css-hyum1k-MuiToolbar-root {
+    background-color: #b1b1b1;
+}

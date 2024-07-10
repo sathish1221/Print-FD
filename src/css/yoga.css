@@ -52,7 +52,7 @@
     width: 180px;
     position: relative;
     top: 23px;
-    left: 25px;
+    left: 30px;
 }
 .css-1q8hrym-MuiListItemText-root {
     margin: 0 !important;
@@ -183,4 +183,25 @@ margin-top: 100px !important;
 
 .css-3zynyz {
     width: 80% !important;
+}
+
+.css-1oh42y7-MuiButtonBase-root-MuiIconButton-root {
+    background-color: #7f223d !important;
+    color: #fff !important;
+    font-weight: 700;
+    font-size: small !important;
+}
+
+.css-13jf6t5-MuiPaper-root-MuiCard-root {
+    border-radius: 15px !important;
+}
+
+.css-m72epa-MuiCardContent-root {
+    justify-content: center !important;
+    margin-top: 0px !important;
+    padding: 7px !important;
+}
+
+.css-1g25wsq-MuiPaper-root-MuiCard-root {
+    margin-top: 120px !important;
 }
